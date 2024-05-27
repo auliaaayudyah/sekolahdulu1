@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://localhost/crypo/detailKoin.php?id=1 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Coin</title>
+    <link href="./Detail Coin_files/tailwind.min.css" rel="stylesheet">
+    <link href="./Detail Coin_files/css2" rel="stylesheet">
+    <link href="./Detail Coin_files/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white font-sora">
+    <!-- Container -->
+    <div class="w-full pt-[85px] px-[85px] flex flex-col gap-14">
+        <!-- Header -->
+        <div class="header flex items-center mb-10">
+            <img src="./Detail Coin_files/logo.png" alt="Logo" class="w-12 h-12">
+            <h1 class="text-2xl font-semibold">crypo</h1>
+        </div>
+
+        <!-- Date and Time -->
+        <div class="datetime text-2xl font-semibold" id="datetime">Sabtu, 25 Mei 2024 pukul 12.46.24</div>
+
+        <!-- Grid Container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Coin Detail -->
+            <div class="coin-detail bg-gray-800 p-6 rounded-lg">
+                <!-- Coin detail content will be populated here -->
+            </div>
+            <!-- Chart Container -->
+            <div class="chart-container bg-gray-800 p-6 rounded-lg">
+                <!-- TradingView Widget will be embedded here -->
+            </div>
+        </div>
+
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container" style="width: 1271px; height: 300px;">
+        <iframe scrolling="no" allowtransparency="true" frameborder="0" src="./Detail Coin_files/saved_resource.html" title="mini symbol-overview TradingView widget" lang="en" style="user-select: none; box-sizing: border-box; display: block; height: calc(100% - 32px); width: 100%;"></iframe>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/?utm_source=localhost&amp;utm_medium=widget_new&amp;utm_campaign=mini-symbol-overview" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+        
+        <style>
+	.tradingview-widget-copyright {
+		font-size: 13px !important;
+		line-height: 32px !important;
+		text-align: center !important;
+		vertical-align: middle !important;
+		/* @mixin sf-pro-display-font; */
+		font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
+		color: #B2B5BE !important;
+	}
+
+	.tradingview-widget-copyright .blue-text {
+		color: #2962FF !important;
+	}
+
+	.tradingview-widget-copyright a {
+		text-decoration: none !important;
+		color: #B2B5BE !important;
+	}
+
+	.tradingview-widget-copyright a:visited {
+		color: #B2B5BE !important;
+	}
+
+	.tradingview-widget-copyright a:hover .blue-text {
+		color: #1E53E5 !important;
+	}
+
+	.tradingview-widget-copyright a:active .blue-text {
+		color: #1848CC !important;
+	}
+
+	.tradingview-widget-copyright a:visited .blue-text {
+		color: #2962FF !important;
+	}
+	</style></div>
+        <!-- TradingView Widget END -->
+
+        <!-- Market List -->
+        <div class="market-list bg-gray-800 p-6 rounded-lg mt-10">
+            <h2 class="text-2xl font-semibold">ApeCoin Markets</h2>
+            <div class="overflow-x-auto mt-4">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Nama</th>
+                            <th class="px-4 py-2">Price</th>
+                            <th class="px-4 py-2">1h</th>
+                            <th class="px-4 py-2">24h</th>
+                            <th class="px-4 py-2">7d</th>
+                            <th class="px-4 py-2">Market Cap</th>
+                            <th class="px-4 py-2">Select</th>
+                            <th class="px-4 py-2">Circulating Supply</th>
+                            <th class="px-4 py-2">Chart</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getMetaData } from "./models/api.js";
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const coinId = urlParams.get('id');
+        console.log(coinId);
+
+        
+
+        // Function to update date and time
+        setInterval(() => {
+            const date = new Date();
+            const options = {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+            };
+            document.getElementById("datetime").innerHTML = date.toLocaleDateString("id-ID", options);
+        }, 1000);
+
+        // Load coin details from localStorage
+        const coin = JSON.parse(localStorage.getItem('selectedCoin'));
+        if (coin) {
+            const detailContainer = document.querySelector('.coin-detail');
+            detailContainer.innerHTML = `
+                <h2 class="text-2xl font-semibold">${coin.name}</h2>
+                <p>Price: Rp.${parseFloat(coin.quote.IDR.price).toLocaleString('id-ID')}</p>
+                <p>1h Change: ${coin.quote.IDR.percent_change_1h}%</p>
+                <p>24h Change: ${coin.quote.IDR.percent_change_24h}%</p>
+                <p>7d Change: ${coin.quote.IDR.percent_change_7d}%</p>
+                <p>Market Cap: Rp.${parseFloat(coin.quote.IDR.market_cap).toLocaleString('id-ID')}</p>
+                <p>Circulating Supply: ${coin.circulating_supply}</p>
+            `;
+        }
+    </script>
+
+
+</body></html>
